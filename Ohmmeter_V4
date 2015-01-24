@@ -200,4 +200,6 @@ Serial.println(" k ohm");
 lcd.setCursor(0,1);
 lcd.print("Arduino Ohmmeter");
 }
-anything
+
+
+
