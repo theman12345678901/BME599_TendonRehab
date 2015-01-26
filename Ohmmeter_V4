@@ -214,7 +214,10 @@ finalbaseline = average(baseline);
 delay(2000)
 Serial.println("Measuring values");
 }
-
+else 
+{
+delay(1000)
+}
 
 
 }
