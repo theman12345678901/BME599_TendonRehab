@@ -1,10 +1,11 @@
 #include <SPI.h>
-
+#include <Average.h>
 #include <LiquidCrystal.h>
 
 
 int vin=5;
-
+int count;
+int baseline;
 int u=6;
 int v=7;
 int w=8;
@@ -195,10 +196,33 @@ lcd.print("k");
 lcd.print((char)244);
 Serial.print(rx);
 Serial.println(" k ohm");
+
 }
 }
 lcd.setCursor(0,1);
 lcd.print("Arduino Ohmmeter");
+
+#baseline
+for (count = 0; count < 10; count = count + 1)
+{
+baseline[count+1] = rx;
+
+if (count = 9)
+{
+Serial.println("Baseline reading done");
+finalbaseline = average(baseline);
+delay(2000)
+Serial.println("Measuring values");
+}
+
+
+
+}
+
+finalrx = rx - finalbaseline;
+Serial.print("Measured value: ");
+Serial.println(finalrx);
+
 }
 
 
