@@ -203,22 +203,26 @@ lcd.setCursor(0,1);
 lcd.print("Arduino Ohmmeter");
 
 //baseline
-for (count = 0; count < 10; count = count + 1)
+//baseline
+if (count <10)
 {
+count = count +1;
 baseline[count+1] = rx;
 
 if (count = 9)
 {
 Serial.println("Baseline reading done");
-for {basecount = 0; basecount < 10; basecount = basecount+1)
+for (basecount = 0; basecount < 10; basecount = basecount+1)
 {
-finalbaseline = finalbaseline = baseline[basecount + 1]
-delay(2000)
+finalbaseline = finalbaseline = baseline[basecount + 1];
+delay(2000);
 Serial.println("Start measuring values");
+}
+finalbaseline = finalbaseline/basecount;
 }
 else 
 {
-delay(1000)
+delay(1000);
 }
 
 
