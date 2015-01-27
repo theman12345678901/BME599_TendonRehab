@@ -1,0 +1,205 @@
+#include <SPI.h>
+#include <Average.h>
+#include <LiquidCrystal.h>
+
+
+int vin=5;
+int count;
+int baseline;
+int u=6;
+int v=7;
+int w=8;
+int x=9;
+int y=10;
+int z=13;
+
+int au;
+int av;
+int aw;
+int ax;
+int ay;
+int az;
+
+int a;
+double vx;
+float rx;
+double i;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(vin,INPUT);
+  lcd.begin(16,2);
+  
+  pinMode(u,OUTPUT);
+  pinMode(v,OUTPUT);
+  pinMode(w,OUTPUT);
+  pinMode(x,OUTPUT);
+  pinMode(y,OUTPUT);
+  pinMode(z,OUTPUT);
+  
+  digitalWrite(u,LOW);
+  digitalWrite(v,LOW);
+  digitalWrite(w,LOW);
+  digitalWrite(x,LOW);
+  digitalWrite(y,LOW);
+  digitalWrite(z,LOW);
+}
+
+void loop()
+{
+digitalWrite(u,HIGH);
+digitalWrite(v,LOW);
+digitalWrite(w,LOW);
+digitalWrite(x,LOW);
+digitalWrite(y,LOW);
+digitalWrite(z,LOW);
+delay(100);
+au=analogRead(vin);
+
+
+digitalWrite(u,LOW);
+digitalWrite(v,HIGH);
+digitalWrite(w,LOW);
+digitalWrite(x,LOW);
+digitalWrite(y,LOW);
+digitalWrite(z,LOW);
+delay(100);
+av=analogRead(vin);
+
+
+digitalWrite(u,LOW);
+digitalWrite(v,LOW);
+digitalWrite(w,HIGH);
+digitalWrite(x,LOW);
+digitalWrite(y,LOW);
+digitalWrite(z,LOW);
+delay(100);
+aw=analogRead(vin);
+
+
+digitalWrite(u,LOW);
+digitalWrite(v,LOW);
+digitalWrite(w,LOW);
+digitalWrite(x,HIGH);
+digitalWrite(y,LOW);
+digitalWrite(z,LOW);
+delay(100);
+ax=analogRead(vin);
+
+
+digitalWrite(u,LOW);
+digitalWrite(v,LOW);
+digitalWrite(w,LOW);
+digitalWrite(x,LOW);
+digitalWrite(y,HIGH);
+digitalWrite(z,LOW);
+delay(100);
+ay=analogRead(vin);
+
+
+digitalWrite(u,LOW);
+digitalWrite(v,LOW);
+digitalWrite(w,LOW);
+digitalWrite(x,LOW);
+digitalWrite(y,LOW);
+digitalWrite(z,HIGH);
+delay(100);
+az=analogRead(vin);
+
+
+if(az>=450)
+{
+vx=az*0.0048876;
+i=(5-vx-0.675)/22000;
+rx=(vx/i);
+}
+if(ay>=450 && az<450)
+{
+vx=ay*0.0048876;
+i=(5-vx-0.675)/10000;
+rx=(vx/i);
+}
+if(ax>=450 && ay<450 && az<450)
+{
+vx=ax*0.0048876;
+i=(5-vx-0.675)/4700;
+rx=(vx/i);
+}
+
+if(aw>=450 && ax<450 && ay<450 && az<450)
+{
+vx=aw*0.0048876;
+i=(5-vx-0.675)/2200;
+rx=(vx/i);
+}
+
+if(av>=450 && aw<450 && ax<450 && ay<450 && az<450)
+{
+vx=av*0.0048876;
+i=(5-vx-0.675)/1000;
+rx=(vx/i);
+}
+
+if(au>=450 && av<450 && aw<450 && ax<450 && ay<450 && az<450)
+{
+vx=au*0.0048876;
+i=(5-vx-0.675)/560;
+rx=(vx/i);
+}
+
+if(au<450 && av<450 && aw<450 && ax<450 && ay<450 && az<450 )
+{
+vx=au*0.0048876;
+i=(5-vx-0.675)/220;
+rx=(vx/i);
+}
+lcd.setCursor(0,0);
+
+
+Serial.println(" ");
+Serial.println(au);
+Serial.println(av);
+Serial.println(aw);
+Serial.println(ax);
+Serial.println(ay);
+Serial.println(az);
+
+
+if(vx>4.8)
+{
+lcd.clear();
+lcd.setCursor(0,0);
+lcd.print("----INFINITY----");
+Serial.println("----INFINITY----");
+}
+else
+{
+if(rx<1000)
+{
+lcd.clear();
+lcd.setCursor(0,0);
+lcd.print(rx);
+lcd.setCursor(7,0);
+lcd.print((char)244);
+Serial.print(rx);
+Serial.println(" ohm");
+}
+else
+{
+lcd.clear();
+rx=rx/1000;
+lcd.setCursor(0,0);
+lcd.print(rx);
+lcd.setCursor(6,0);
+lcd.print("k");
+lcd.print((char)244);
+Serial.print(rx);
+Serial.println(" k ohm");
+
+}
+}
+lcd.setCursor(0,1);
+lcd.print("Arduino Ohmmeter");
+
+}
