@@ -1,11 +1,9 @@
 #include <SPI.h>
-#include <Average.h>
 #include <LiquidCrystal.h>
 
 
 int vin=5;
-int count;
-int baseline;
+
 int u=6;
 int v=7;
 int w=8;
